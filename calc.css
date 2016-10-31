@@ -71,17 +71,33 @@ body {
 	border-radius: 5%;
 }
 
-#calc-screen {
-	overflow: hidden;	
+.screen {
 	text-align: right;
+
 	height: 100px;
 	width: auto;
+
 	background-color: #d5d5d5;
 	border: 3px solid gray;
 	border-radius: 20px;
 	font-family: 'Orbitron', sans-serif;
+	overflow: hidden;
+
+
+}
+
+.small-readout {
+	height: 25px;
+	line-height: 25px;
+	border: 0;
+}
+
+
+.main-readout {
+	border: 0;
+	height: 75px;
 	font-size: 4em;
-	line-height: 100px;
+	line-height: 75px;
 }
 
 .number-button,
