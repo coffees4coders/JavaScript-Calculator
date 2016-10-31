@@ -3,11 +3,11 @@
 // an operator button is pressed
 var numsArr = [];
 
-// this will hold the
+// this will hold the individual inputs
+// to be operated on
 var inputArr = [];
 
 function updateDisplay(item) {
-  console.log(item);
 
 
   var readout = document.getElementById('calc-screen');
@@ -15,6 +15,13 @@ function updateDisplay(item) {
   // if parameter is a number character, add to numsArr
   if (/\w/g.test(item)) {
     numsArr.push(item);
+  }
+  // TODO: finish this
+  if (item === '+') {
+    console.log('+ clicked');
+    console.log(item.innerHTML);
+    inputArr.push(numsArr)
+    numsArr.push(' + ');
   }
 
 
@@ -45,7 +52,7 @@ window.onload = function() {
   for (var i = 0; i < operatorButtons.length; i++) {
     operatorButtons[i].addEventListener('click', function(e) {
       // what heppens when you click on an operator button
-      console.log('operator button clicked!');
+      updateDisplay(e.target.innerHTML);
     });
   }
 
