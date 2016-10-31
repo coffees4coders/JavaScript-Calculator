@@ -10,7 +10,6 @@ function updateDisplay(item) {
   console.log(item);
 
 
-
   var readout = document.getElementById('calc-screen');
 
   // if parameter is a number character, add to numsArr
@@ -27,7 +26,7 @@ function updateDisplay(item) {
   }
 
   // update readout display
-  readout.innerHTML = numsArr;
+  readout.innerHTML = numsArr.join('');
 };
 
 window.onload = function() {

@@ -72,11 +72,16 @@ body {
 }
 
 #calc-screen {
+	overflow: hidden;	
+	text-align: right;
 	height: 100px;
 	width: auto;
 	background-color: #d5d5d5;
 	border: 3px solid gray;
 	border-radius: 20px;
+	font-family: 'Orbitron', sans-serif;
+	font-size: 4em;
+	line-height: 100px;
 }
 
 .number-button,
