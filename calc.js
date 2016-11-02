@@ -8,6 +8,7 @@ var inputArr = [];
 var smallDisplayArr = [];
 var operationsArr = [];
 
+
 var mainDisplay = document.getElementById('main-readout');
 
 var readout = {
@@ -15,32 +16,31 @@ var readout = {
     smallArr: [],
 
     // the following properties are set when the page finishes loading
-    // mainDisplay : points to <div class="screen main-readout">
-    // smallDisplay : points to <div class="screen small-readout" id="small-readout">
-
-
-
+    mainDisplay :  {}, // points to <div class="screen main-readout" id="main-readout">
+    smallDisplay : {}, // points to <div class="screen small-readout" id="small-readout">
 
     // returns the current value of the main display
     // in string format
     getMainDisplay: function() {
         return this.mainArr.join('');
     },
-
     // returns the current value of the small display
     // in string format
-
     getSmallDisplay: function() {
         return this.smallDisplay.join('');
     },
-
     updateMainDisplay: function(number) {
         this.mainArr.push(number);
         this.mainDisplay.innerHTML = this.getMainDisplay();
     },
-
     updateSmallDisplay: function(number) {
         this.smallArr.push(number);
+    },
+    clearDisplays: function() {
+        this.mainDisplay.innerHTML = "";
+        this.smallDisplay.innerHTML = "";
+        this.smallArr = [];
+        this.mainArr = [];
     }
 
 };
@@ -62,6 +62,13 @@ function processInput(item) {
         case "9":
             readout.updateMainDisplay(parseInt(item));
             break;
+        case "+":
+            // ...
+            break;
+        case "clear":
+            readout.clearDisplays();
+            break;
+
 
     }
 
