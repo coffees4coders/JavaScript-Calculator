@@ -11,13 +11,16 @@ var operationsArr = [];
 
 var mainDisplay = document.getElementById('main-readout');
 
+// IDEA: create a new branch that encapsulates this object
+//       so that it functions like an API
+
 var readout = {
     mainArr: [],
     smallArr: [],
 
     // the following properties are set when the page finishes loading
-    mainDisplay :  {}, // points to <div class="screen main-readout" id="main-readout">
-    smallDisplay : {}, // points to <div class="screen small-readout" id="small-readout">
+    mainDisplay:  {}, // points to <div class="screen main-readout" id="main-readout">
+    smallDisplay: {}, // points to <div class="screen small-readout" id="small-readout">
 
     // returns the current value of the main display
     // in string format
@@ -29,18 +32,39 @@ var readout = {
     getSmallDisplay: function() {
         return this.smallDisplay.join('');
     },
+    processNumber: function(number) {
+        var lastInput = inputArr[inputArr.length-1];
+        console.log(lastInput);
+        if (lastInput === '+') {
+            this.mainDisplay.innerHTML = "";
+        }
+        inputArr.push(number);
+        readout.updateDisplay();
+
+    },
+    processOperation: function(symbol) {
+        inputArr.push(symbol);
+    },
     updateMainDisplay: function(number) {
         this.mainArr.push(number);
         this.mainDisplay.innerHTML = this.getMainDisplay();
     },
-    updateSmallDisplay: function(number) {
-        this.smallArr.push(number);
+    updateSmallDisplay: function(item) {
+        this.smallArr = [].push(mainArr).push(item);
+    },
+    updateDisplay: function() {
+        var lastInput = inputArr[inputArr.length-1];
+        if (lastInput !== '+') {
+            this.mainDisplay.innerHTML = inputArr.join('');
+        } else if (lastInput === '+') {
+            this.mainDisplay.innerHTML = inputArr.join('').slice(0, inputArr.length-1); // slices input up to operation symbol
+            this.smallDisplay.innerHTML = inputArr.join('');
+        }
     },
     clearDisplays: function() {
         this.mainDisplay.innerHTML = "";
         this.smallDisplay.innerHTML = "";
-        this.smallArr = [];
-        this.mainArr = [];
+        inputArr = [];
     }
 
 };
@@ -48,7 +72,6 @@ var readout = {
 // takes button input from user
 // updates readout display at end of function
 function processInput(item) {
-
 
     switch(item) {
         case "1":
@@ -60,15 +83,14 @@ function processInput(item) {
         case "7":
         case "8":
         case "9":
-            readout.updateMainDisplay(parseInt(item));
+            readout.processNumber(parseInt(item));
             break;
         case "+":
-            // ...
+            readout.processOperation('+');
             break;
         case "clear":
             readout.clearDisplays();
             break;
-
 
     }
 
@@ -81,13 +103,13 @@ function processInput(item) {
     // if statement clears display if +
     // was entered previously
 
-    // FIXME: this doesn't work!
+
     if (inputArr[inputArr.length-1] === "+") {
         mainReadout.innerHTML = "";
     }
     mainReadout.innerHTML = inputArr.join('');
   }
-  // IDEA: make else into switch
+
 
   if (item === '+') {
     inputArr.push(inputArr)
