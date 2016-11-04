@@ -54,7 +54,27 @@ var results = {
                 readout.smallDisplay.innerHTML += this.currentTerm + ' ' + input;
                 this.inputs.push(parseFloat(this.currentTerm));
                 if (this.inputs.length === 2) {
-                    this.result = this.inputs[0] + this.inputs[1];
+                    switch(this.operation) {
+                        case '+':
+                            this.result = this.inputs[0] + this.inputs[1];
+                            break;
+
+                        case '-':
+                            this.result = this.inputs[0] - this.inputs[1];
+                            break;
+
+                        case '/':
+                            this.result = this.inputs[0] / this.inputs[1];
+                            break;
+
+                        case '*':
+                            this.result = this.inputs[0] * this.inputs[1];
+                            break;
+                    }
+
+
+
+
                     this.inputs = [];
                     this.inputs.push(this.result);
                     console.log('result = ' + this.result);
@@ -81,11 +101,20 @@ function processClick(item) {
         case "9":
             results.processInput(item);
             break;
-        case "+":
+        case "plus":
             results.processInput('+');
             break;
+        case "minus":
+            results.processInput('-');
+            break;
+        case "divide":
+            results.processInput('/');
+            break;
+        case "multiply":
+            results.processInput('*');
+            break;
         case "clear":
-            readout.clearDisplays();
+            readout.clearAll();
             break;
 
     }
@@ -144,7 +173,7 @@ window.onload = function() {
     operatorButtons[i].addEventListener('click', function(e) {
         // attach onclick event listeners to all operator buttons
       // what heppens when you click on an operator button
-      processClick(e.target.innerHTML);
+      processClick(e.target.value);
     });
   }
 

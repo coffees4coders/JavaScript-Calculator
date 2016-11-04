@@ -89,6 +89,7 @@ body {
 .small-readout {
 	height: 25px;
 	line-height: 25px;
+	font-size: 2em;
 	border: 0;
 }
 
