@@ -37,6 +37,18 @@ var results = {
     result: null,
     inputs: [],
     operation: null,
+    addToMainDisplay: function(item) {
+        readout.mainDisplay.innerHTML += item;
+    },
+    addToSmallDisplay:function(item){
+        readout.smallDisplay.innerHTML += item;
+    },
+    updateMainDisplay: function(item) {
+        readout.mainDisplay.innerHTML = item;
+    },
+    updateSmallDisplay:function(item){
+        readout.smallDisplay.innerHTML = item;
+    },
     processInput: function(input) {
         // runs if input is 1-9
         if (!isNaN(input)) {
@@ -44,14 +56,14 @@ var results = {
                 readout.clearMainDisplay();
             }
             this.currentTerm += input;
-            readout.mainDisplay.innerHTML += input;
+            this.addToMainDisplay(input);
             this.operation = null;
         } else {
             // if a previous operation is pending
             // repeated operation clicks will have no effect
             if (this.operation === null) {
                 this.operation = input;
-                readout.smallDisplay.innerHTML += this.currentTerm + ' ' + input;
+                this.addToSmallDisplay(this.currentTerm + ' ' + input);
                 this.inputs.push(parseFloat(this.currentTerm));
                 if (this.inputs.length === 2) {
                     switch(this.operation) {
@@ -72,12 +84,10 @@ var results = {
                             break;
                     }
 
-
-
-
                     this.inputs = [];
                     this.inputs.push(this.result);
                     console.log('result = ' + this.result);
+                    this.updateMainDisplay(this.result);
                 }
                 this.currentTerm = '';
             }
@@ -115,6 +125,9 @@ function processClick(item) {
             break;
         case "clear":
             readout.clearAll();
+            break;
+        case "equals":
+            // TODO: add equals functionality
             break;
 
     }
@@ -157,6 +170,7 @@ window.onload = function() {
   var numberButtons = document.getElementsByClassName('number-button');
   var operatorButtons = document.getElementsByClassName('operator-button');
   var clearButton = document.getElementsByClassName('clear-button');
+  var equalsButton = document.getElementsByClassName('equals-button');
 
 
   readout.mainDisplay = document.getElementById('main-readout');
@@ -179,6 +193,10 @@ window.onload = function() {
 
   clearButton[0].addEventListener('click', function() {
     processClick('clear');
+  });
+
+  equalsButton[0].addEventListener('click', function() {
+    processClick('equals');
   });
 
 };
