@@ -9,7 +9,6 @@ var smallDisplayArr = [];
 var operationsArr = [];
 
 
-var mainDisplay = document.getElementById('main-readout');
 
 // IDEA: create a new branch that encapsulates this object
 //       so that it functions like an API
@@ -19,59 +18,56 @@ var readout = {
     smallArr: [],
 
     // the following properties are set when the page finishes loading
-    mainDisplay:  {}, // points to <div class="screen main-readout" id="main-readout">
-    smallDisplay: {}, // points to <div class="screen small-readout" id="small-readout">
+     mainDisplay:  {}, // points to <div class="screen main-readout" id="main-readout">
+     smallDisplay: {}, // points to <div class="screen small-readout" id="small-readout">
 
-    // returns the current value of the main display
-    // in string format
-    getMainDisplay: function() {
-        return this.mainArr.join('');
-    },
-    // returns the current value of the small display
-    // in string format
-    getSmallDisplay: function() {
-        return this.smallDisplay.join('');
-    },
-    processNumber: function(number) {
-        var lastInput = inputArr[inputArr.length-1];
-        console.log(lastInput);
-        if (lastInput === '+') {
-            this.mainDisplay.innerHTML = "";
-        }
-        inputArr.push(number);
-        readout.updateDisplay();
+     clearMainDisplay: function() {
+         this.mainDisplay.innerHTML = "";
+     },
 
-    },
-    processOperation: function(symbol) {
-        inputArr.push(symbol);
-    },
-    updateMainDisplay: function(number) {
-        this.mainArr.push(number);
-        this.mainDisplay.innerHTML = this.getMainDisplay();
-    },
-    updateSmallDisplay: function(item) {
-        this.smallArr = [].push(mainArr).push(item);
-    },
-    updateDisplay: function() {
-        var lastInput = inputArr[inputArr.length-1];
-        if (lastInput !== '+') {
-            this.mainDisplay.innerHTML = inputArr.join('');
-        } else if (lastInput === '+') {
-            this.mainDisplay.innerHTML = inputArr.join('').slice(0, inputArr.length-1); // slices input up to operation symbol
-            this.smallDisplay.innerHTML = inputArr.join('');
-        }
-    },
-    clearDisplays: function() {
+    clearAll: function() {
         this.mainDisplay.innerHTML = "";
         this.smallDisplay.innerHTML = "";
         inputArr = [];
     }
+};
 
+var results = {
+    currentTerm: '',
+    result: null,
+    inputs: [],
+    operation: null,
+    processInput: function(input) {
+        // runs if input is 1-9
+        if (!isNaN(input)) {
+            if (this.inputs.length === 1 && this.currentTerm === '') {
+                readout.clearMainDisplay();
+            }
+            this.currentTerm += input;
+            readout.mainDisplay.innerHTML += input;
+            this.operation = null;
+        } else {
+            // if a previous operation is pending
+            // repeated operation clicks will have no effect
+            if (this.operation === null) {
+                this.operation = input;
+                readout.smallDisplay.innerHTML += this.currentTerm + ' ' + input;
+                this.inputs.push(parseFloat(this.currentTerm));
+                if (this.inputs.length === 2) {
+                    this.result = this.inputs[0] + this.inputs[1];
+                    this.inputs = [];
+                    this.inputs.push(this.result);
+                    console.log('result = ' + this.result);
+                }
+                this.currentTerm = '';
+            }
+        }
+    }
 };
 
 // takes button input from user
 // updates readout display at end of function
-function processInput(item) {
+function processClick(item) {
 
     switch(item) {
         case "1":
@@ -83,10 +79,10 @@ function processInput(item) {
         case "7":
         case "8":
         case "9":
-            readout.processNumber(parseInt(item));
+            results.processInput(item);
             break;
         case "+":
-            readout.processOperation('+');
+            results.processInput('+');
             break;
         case "clear":
             readout.clearDisplays();
@@ -129,10 +125,10 @@ function processInput(item) {
 */
 window.onload = function() {
 
-
   var numberButtons = document.getElementsByClassName('number-button');
   var operatorButtons = document.getElementsByClassName('operator-button');
   var clearButton = document.getElementsByClassName('clear-button');
+
 
   readout.mainDisplay = document.getElementById('main-readout');
   readout.smallDisplay = document.getElementById('small-readout');
@@ -141,19 +137,19 @@ window.onload = function() {
   for (var i = 0; i < numberButtons.length; i++) {
     numberButtons[i].addEventListener('click', function(e) {
       // what heppens when you click on a number button
-      processInput(e.target.value); // sends input to processInput()
+      processClick(e.target.value); // sends input to processInput()
     });
   }
   for (var i = 0; i < operatorButtons.length; i++) {
     operatorButtons[i].addEventListener('click', function(e) {
         // attach onclick event listeners to all operator buttons
       // what heppens when you click on an operator button
-      processInput(e.target.innerHTML);
+      processClick(e.target.innerHTML);
     });
   }
 
   clearButton[0].addEventListener('click', function() {
-    processInput('clear');
+    processClick('clear');
   });
 
 };
