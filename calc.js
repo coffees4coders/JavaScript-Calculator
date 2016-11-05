@@ -50,14 +50,24 @@ var results = {
         readout.smallDisplay.innerHTML = item;
     },
     processInput: function(input) {
-        // runs if input is 1-9
+        // runs if input is 0-9
         if (!isNaN(input)) {
-            if (this.inputs.length === 1 && this.currentTerm === '') {
+            if (this.inputs.length === 1 &&
+                this.currentTerm === '' ||
+                this.currentTerm === '' &&
+                readout.mainDisplay.innerHTML === '0') {
                 readout.clearMainDisplay();
             }
-            this.currentTerm += input;
-            this.addToMainDisplay(input);
-            this.operation = null;
+            if (this.currentTerm === '0' && readout.mainDisplay.length === 1) {
+                this.currentTerm = '';
+            }
+            // ensures that zero cannot be the
+            // first digit
+            if (true) {
+                this.currentTerm += input;
+                this.addToMainDisplay(input);
+                this.operation = null;
+            }
         } else {
             // if a previous operation is pending
             // repeated operation clicks will have no effect
@@ -98,8 +108,8 @@ var results = {
 // takes button input from user
 // updates readout display at end of function
 function processClick(item) {
-
     switch(item) {
+        case "0":
         case "1":
         case "2":
         case "3":
@@ -129,42 +139,10 @@ function processClick(item) {
         case "equals":
             // TODO: add equals functionality
             break;
-
     }
 
 }
- /*
-  // if parameter is a number character, add to readout.mainArr
-  if (/\w/g.test(item)) {
-    readout.updateMainDisplay(item);
-    // update readout display
-    // if statement clears display if +
-    // was entered previously
 
-
-    if (inputArr[inputArr.length-1] === "+") {
-        mainReadout.innerHTML = "";
-    }
-    mainReadout.innerHTML = inputArr.join('');
-  }
-
-
-  if (item === '+') {
-    inputArr.push(inputArr)
-    inputArr.push(' + ');
-    smallDisplayArr.push(inputArr);
-    mainReadout.innerHTML = "";
-    smallReadout.innerHTML = smallDisplayArr;
-  }
-
-  // if function receives 'clear' string from
-  // clear button click, clear the numsArr
-  if (item === 'clear') {
-    numsArr = [];
-    readout.innerHTML = "";
-  }
-}
-*/
 window.onload = function() {
 
   var numberButtons = document.getElementsByClassName('number-button');
@@ -198,5 +176,9 @@ window.onload = function() {
   equalsButton[0].addEventListener('click', function() {
     processClick('equals');
   });
+
+  // initialize calculator screen to display zero
+  readout.mainDisplay.innerHTML = '0';
+
 
 };
