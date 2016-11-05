@@ -1,17 +1,5 @@
-// this will hold the numbers selected by
-// the calculator number buttons before
-// an operator button is pressed
-
-// this will hold the individual inputs
-// to be operated on
-var inputArr = [];
-var smallDisplayArr = [];
-var operationsArr = [];
-
-
-
 // IDEA: create a new branch that encapsulates this object
-//       so that it functions like an API
+// so that it functions like an API
 
 var readout = {
     mainArr: [],
@@ -28,7 +16,8 @@ var readout = {
     clearAll: function() {
         this.mainDisplay.innerHTML = "";
         this.smallDisplay.innerHTML = "";
-        inputArr = [];
+        results.inputs = [];
+        results.currentTerm = '';
     }
 };
 
@@ -37,6 +26,7 @@ var results = {
     result: null,
     inputs: [],
     operation: null,
+    previousOperation: null,
     addToMainDisplay: function(item) {
         readout.mainDisplay.innerHTML += item;
     },
@@ -58,16 +48,18 @@ var results = {
                 readout.mainDisplay.innerHTML === '0') {
                 readout.clearMainDisplay();
             }
+            // clears initial zero
             if (this.currentTerm === '0' && readout.mainDisplay.length === 1) {
                 this.currentTerm = '';
             }
-            // ensures that zero cannot be the
-            // first digit
-            if (true) {
+
                 this.currentTerm += input;
                 this.addToMainDisplay(input);
+                if (this.operation !== null) {
+                    this.previousOperation = this.operation;
+                }
                 this.operation = null;
-            }
+
         } else {
             // if a previous operation is pending
             // repeated operation clicks will have no effect
@@ -76,7 +68,7 @@ var results = {
                 this.addToSmallDisplay(this.currentTerm + ' ' + input);
                 this.inputs.push(parseFloat(this.currentTerm));
                 if (this.inputs.length === 2) {
-                    switch(this.operation) {
+                    switch(this.previousOperation) {
                         case '+':
                             this.result = this.inputs[0] + this.inputs[1];
                             break;
