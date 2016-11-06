@@ -1,11 +1,6 @@
-// IDEA: create a new branch that encapsulates this object
-// so that it functions like an API
-
-// TOOO: add keypress functionality
+// TOOO: add keyboard keypress functionality
 
 var readout = {
-
-
     // the following properties are set when the page finishes loading
      mainDisplay:  {}, // points to <div class="screen main-readout" id="main-readout">
      smallDisplay: {}, // points to <div class="screen small-readout" id="small-readout">
@@ -49,6 +44,35 @@ var results = {
     inputs: [],
     operation: null,
     previousOperation: null,
+
+    // reset this object to default values
+    resetResultsObj: function() {
+      this.currentTerm = '0';
+      this.result = null;
+      this.inputs = [];
+      this.operation = null;
+      this.previousOperation = null;
+    },
+
+    // changes the sign of the number displayed in the main readout
+    toggleNegative: function() {
+      // only switches signs if an operator button has not
+      // just been clicked
+      if (this.operation === null) {
+        var numberOnDisplay = parseFloat(readout.mainDisplay.innerHTML),
+            num;
+
+        if (readout.mainDisplay.innerHTML < 0) {
+          num = Math.abs(numberOnDisplay);
+
+        } else if (readout.mainDisplay.innerHTML > 0) {
+          num = 0 - numberOnDisplay;
+        }
+
+        readout.updateMainDisplay(num);
+        this.currentTerm = num;
+      }
+    },
 
     processInput: function(input) {
         // runs if input is 0-9
@@ -169,6 +193,10 @@ function processClick(item) {
         case "equals":
             results.processInput('=');
             readout.clearSmallDisplay();
+            results.resetResultsObj();
+            break;
+        case "negative":
+            results.toggleNegative();
             break;
     }
 
@@ -176,10 +204,12 @@ function processClick(item) {
 
 window.onload = function() {
 
-  var numberButtons = document.getElementsByClassName('number-button');
-  var operatorButtons = document.getElementsByClassName('operator-button');
-  var clearButton = document.getElementsByClassName('clear-button');
-  var equalsButton = document.getElementsByClassName('equals-button');
+  var numberButtons = document.getElementsByClassName('number-button'),
+      operatorButtons = document.getElementsByClassName('operator-button'),
+      clearButton = document.getElementsByClassName('clear-button'),
+      equalsButton = document.getElementsByClassName('equals-button'),
+      negativeButton = document.getElementsByClassName('negative-button');
+
 
 
   readout.mainDisplay = document.getElementById('main-readout');
