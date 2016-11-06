@@ -10,6 +10,22 @@ var readout = {
      mainDisplay:  {}, // points to <div class="screen main-readout" id="main-readout">
      smallDisplay: {}, // points to <div class="screen small-readout" id="small-readout">
 
+     // add___ methods will append the readout
+     addToMainDisplay: function(item) {
+         readout.mainDisplay.innerHTML += item;
+     },
+     addToSmallDisplay:function(item){
+         readout.smallDisplay.innerHTML += item;
+     },
+
+     // update____Display methods will replace display contents
+     updateMainDisplay: function(item) {
+         readout.mainDisplay.innerHTML = item;
+     },
+     updateSmallDisplay:function(item){
+         readout.smallDisplay.innerHTML = item;
+     },
+
      clearMainDisplay: function() {
          this.mainDisplay.innerHTML = "";
      },
@@ -19,7 +35,7 @@ var readout = {
      },
 
     clearAll: function() {
-        this.mainDisplay.innerHTML = "";
+        this.mainDisplay.innerHTML = "0";
         this.smallDisplay.innerHTML = "";
         results.inputs = [];
         results.currentTerm = '';
@@ -33,21 +49,7 @@ var results = {
     operation: null,
     previousOperation: null,
 
-    // add___ methods will append the readout
-    addToMainDisplay: function(item) {
-        readout.mainDisplay.innerHTML += item;
-    },
-    addToSmallDisplay:function(item){
-        readout.smallDisplay.innerHTML += item;
-    },
 
-    // update____Display methods will replace display contents
-    updateMainDisplay: function(item) {
-        readout.mainDisplay.innerHTML = item;
-    },
-    updateSmallDisplay:function(item){
-        readout.smallDisplay.innerHTML = item;
-    },
 
     processInput: function(input) {
         // runs if input is 0-9
@@ -64,7 +66,7 @@ var results = {
             }
 
                 this.currentTerm += input;
-                this.addToMainDisplay(input);
+                readout.addToMainDisplay(input);
 
                 if (this.operation !== null) {
                     this.previousOperation = this.operation;
@@ -82,7 +84,7 @@ var results = {
                 indexOfLastInput = readout.smallDisplay.innerHTML.length-1;
             // replaces operation from small display when apporpriate
             if (input !== lastInputOnSmallDisplay && lastInputOnSmallDisplay !== undefined && this.currentTerm === '') {
-                this.updateSmallDisplay(readout.smallDisplay.innerHTML.slice(0, indexOfLastInput) + input);
+                readout.updateSmallDisplay(readout.smallDisplay.innerHTML.slice(0, indexOfLastInput) + input);
             }
 
             // if a previous operation is pending
@@ -93,7 +95,7 @@ var results = {
                 // adds operation to small display for all operations
                 // except 'equals'
                 if (input !== '=') {
-                    this.addToSmallDisplay(this.currentTerm + ' ' + input);
+                    readout.addToSmallDisplay(this.currentTerm + ' ' + input);
                 }
 
                 this.inputs.push(parseFloat(this.currentTerm));
@@ -121,7 +123,7 @@ var results = {
                     this.inputs = [];
                     this.inputs.push(this.result);
                     console.log('result = ' + this.result);
-                    this.updateMainDisplay(this.result);
+                    readout.updateMainDisplay(this.result);
                 }
                 this.currentTerm = '';
             }
