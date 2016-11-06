@@ -38,18 +38,17 @@ var readout = {
         this.mainDisplay.innerHTML = "0";
         this.smallDisplay.innerHTML = "";
         results.inputs = [];
-        results.currentTerm = '';
+        results.currentTerm = '0';
+        results.operation = null;
     }
 };
 
 var results = {
-    currentTerm: '',
+    currentTerm: '0',
     result: null,
     inputs: [],
     operation: null,
     previousOperation: null,
-
-
 
     processInput: function(input) {
         // runs if input is 0-9
@@ -60,9 +59,10 @@ var results = {
                 readout.mainDisplay.innerHTML === '0') {
                 readout.clearMainDisplay();
             }
-            // clears initial zero
-            if (this.currentTerm === '0' && readout.mainDisplay.length === 1) {
+            // clears initial zero when entering a number
+            if (this.currentTerm === '0'/* && readout.mainDisplay.length === */) {
                 this.currentTerm = '';
+                readout.updateMainDisplay('');
             }
 
                 this.currentTerm += input;
@@ -91,6 +91,10 @@ var results = {
             // repeated operation clicks will have no effect
             if (this.operation === null) {
                 this.operation = input;
+
+                // if (readout.smallDisplay.innerHTML = '0') {
+                //   readout.addToSmallDisplay('0' + input);
+                // }
 
                 // adds operation to small display for all operations
                 // except 'equals'
