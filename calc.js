@@ -1,9 +1,10 @@
 // IDEA: create a new branch that encapsulates this object
 // so that it functions like an API
 
+// TOOO: add keypress functionality
+
 var readout = {
-    mainArr: [],
-    smallArr: [],
+
 
     // the following properties are set when the page finishes loading
      mainDisplay:  {}, // points to <div class="screen main-readout" id="main-readout">
@@ -11,6 +12,10 @@ var readout = {
 
      clearMainDisplay: function() {
          this.mainDisplay.innerHTML = "";
+     },
+
+     clearSmallDisplay: function() {
+         this.smallDisplay.innerHTML = "";
      },
 
     clearAll: function() {
@@ -27,18 +32,23 @@ var results = {
     inputs: [],
     operation: null,
     previousOperation: null,
+
+    // add___ methods will append the readout
     addToMainDisplay: function(item) {
         readout.mainDisplay.innerHTML += item;
     },
     addToSmallDisplay:function(item){
         readout.smallDisplay.innerHTML += item;
     },
+
+    // update____Display methods will replace display contents
     updateMainDisplay: function(item) {
         readout.mainDisplay.innerHTML = item;
     },
     updateSmallDisplay:function(item){
         readout.smallDisplay.innerHTML = item;
     },
+
     processInput: function(input) {
         // runs if input is 0-9
         if (!isNaN(input)) {
@@ -55,20 +65,42 @@ var results = {
 
                 this.currentTerm += input;
                 this.addToMainDisplay(input);
+
                 if (this.operation !== null) {
                     this.previousOperation = this.operation;
                 }
                 this.operation = null;
 
+        // runs if an operator button is selected
         } else {
+
+            // handle clicking a different operation before clicking a number button
+            // this will replace the previously selected operation
+            var lastInputOnSmallDisplay =
+                readout.smallDisplay.innerHTML[readout.smallDisplay.innerHTML.length-1],
+
+                indexOfLastInput = readout.smallDisplay.innerHTML.length-1;
+            // replaces operation from small display when apporpriate
+            if (input !== lastInputOnSmallDisplay && lastInputOnSmallDisplay !== undefined && this.currentTerm === '') {
+                this.updateSmallDisplay(readout.smallDisplay.innerHTML.slice(0, indexOfLastInput) + input);
+            }
+
             // if a previous operation is pending
             // repeated operation clicks will have no effect
             if (this.operation === null) {
                 this.operation = input;
-                this.addToSmallDisplay(this.currentTerm + ' ' + input);
+
+                // adds operation to small display for all operations
+                // except 'equals'
+                if (input !== '=') {
+                    this.addToSmallDisplay(this.currentTerm + ' ' + input);
+                }
+
                 this.inputs.push(parseFloat(this.currentTerm));
                 if (this.inputs.length === 2) {
-                    switch(this.previousOperation) {
+
+                    // operation logic
+                    switch(lastInputOnSmallDisplay) {
                         case '+':
                             this.result = this.inputs[0] + this.inputs[1];
                             break;
@@ -129,7 +161,8 @@ function processClick(item) {
             readout.clearAll();
             break;
         case "equals":
-            // TODO: add equals functionality
+            results.processInput('=');
+            readout.clearSmallDisplay();
             break;
     }
 
