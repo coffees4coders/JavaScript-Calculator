@@ -84,7 +84,7 @@ var results = {
                 readout.clearMainDisplay();
             }
             // clears initial zero when entering a number
-            if (this.currentTerm === '0'/* && readout.mainDisplay.length === */) {
+            if (this.currentTerm === '0') {
                 this.currentTerm = '';
                 readout.updateMainDisplay('');
             }
@@ -208,7 +208,8 @@ window.onload = function() {
       operatorButtons = document.getElementsByClassName('operator-button'),
       clearButton = document.getElementsByClassName('clear-button'),
       equalsButton = document.getElementsByClassName('equals-button'),
-      negativeButton = document.getElementsByClassName('negative-button');
+      negativeButton = document.getElementsByClassName('negative-button'),
+      allButtons = document.getElementsByClassName('btn');
 
 
 
@@ -241,5 +242,29 @@ window.onload = function() {
   // initialize calculator screen to display zero
   readout.mainDisplay.innerHTML = '0';
 
+  // adds event listeners for mousedown event
+  // appends .press class to the element's class attribute
+  for (var i = 0; i < allButtons.length; i++) {
+    allButtons[i].addEventListener('mousedown', function(e) {
+        var elemClassList = e.target.className;
+        console.log(elemClassList);
+        e.target.className += ' press';
+        console.log(e.target.className);
+    });
+
+  }
+
+  // add event listeners for mouseup event
+  // removes .press class from the element's class attribute
+  for (var i = 0; i < allButtons.length; i++) {
+    allButtons[i].addEventListener('mouseup', function(e) {
+        var elemClassList = e.target.className;
+        // remove the .press class from the class attribute
+        var startIndex = elemClassList.indexOf(' press');
+        var revertedClassList = elemClassList.slice(0, startIndex);
+        e.target.className = revertedClassList;
+    });
+
+  }
 
 };

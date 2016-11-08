@@ -110,9 +110,6 @@ body {
 	background-color: #000;
 	color: #fff;
 	font-size: 1.5em;
-	border: 2px solid gray;
-	border-radius: 50%/20%;
-	margin: 5px;
 }
 
 .divide-button,
@@ -128,6 +125,20 @@ body {
 	float: right;
 	position: relative;
 	right: 10px;
+}
+
+.btn {
+	outline: 0;
+	box-shadow: 0 2px #686868;
+	border: 2px solid gray;
+	border-radius: 50%/20%;
+	margin: 5px;
+}
+
+.press {
+	position: relative;
+	top: 2px;
+	box-shadow: none;
 }
 
 button {
