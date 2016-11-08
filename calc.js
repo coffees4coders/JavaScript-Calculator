@@ -1,4 +1,6 @@
-// TOOO: add keyboard keypress functionality
+// TODO: add keyboard keypress functionality
+// FIXME: pressing operation after getting result from equals should
+//        use previous result
 
 var readout = {
     // the following properties are set when the page finishes loading
