@@ -247,9 +247,7 @@ window.onload = function() {
   for (var i = 0; i < allButtons.length; i++) {
     allButtons[i].addEventListener('mousedown', function(e) {
         var elemClassList = e.target.className;
-        console.log(elemClassList);
         e.target.className += ' press';
-        console.log(e.target.className);
     });
 
   }
