@@ -60,45 +60,70 @@ button {
 
 body {
 	font-size: 62.5%;
+	background-color: #ECC8F1;
 }
 
-#calculator {
+h1 {
+	padding: 20px 0 10px 0;
+	font-family: 'Orbitron', sans-serif;
+	font-size: 4em;
+	text-align: center;
+}
+
+h2 {
+	font-size: 2em;
+	text-align: center;
+}
+
+a:link, a:visited,
+a:hover, a:active {
+	color: #000;
+}
+
+.calculator {
 	margin: 20px auto 0 auto;
-	padding: 10px;
+	padding: 20px 10px 0 10px;
 	width: 250px;
 	height: 400px;
-	border: 10px solid gray;
+	border: 3px solid #343434;
+	box-shadow: -3px 3px 10px #585858;
 	border-radius: 5%;
+	background-color: #cdcdcd;
+	background: linear-gradient(to top right, #bfbfbf, #ebebeb)
 }
 
 .screen {
 	text-align: right;
-
-	height: 100px;
+	height: 80px;
 	width: 90%;
-	margin: 0 auto;
-	background-color: #d5d5d5;
+	margin: 0 auto 10px;;
 	border: 3px solid gray;
 	border-radius: 20px;
 	font-family: 'Orbitron', sans-serif;
 	overflow: hidden;
+	background-color: #fff;
+
 
 
 }
 
 .small-readout {
-	height: 25px;
+	height: 20px;
 	line-height: 25px;
-	font-size: 2em;
+	font-size: 1.5em;
 	border: 0;
+	background-color: #fff;
+
 }
 
 
 .main-readout {
 	border: 0;
 	height: 75px;
-	font-size: 4em;
+	font-size: 3em;
 	line-height: 75px;
+	background-color: #fff;
+
 }
 
 .number-button,
@@ -110,6 +135,10 @@ body {
 	background-color: #000;
 	color: #fff;
 	font-size: 1.5em;
+}
+
+.clear-button {
+	background-color: #d40303;
 }
 
 .divide-button,
@@ -145,4 +174,15 @@ button {
 	width: 30px;
 	height: 30px;
 	float: left;
+}
+
+.model {
+	font-family: 'Orbitron', sans-serif;
+	font-size: 2em;
+	text-align: right;
+	color: #c30808;
+	font-style: italic;
+	font-weight: bold;
+	padding-right: 10px;
+	margin-bottom: 5px;
 }
