@@ -94,6 +94,8 @@ var results = {
                 this.currentTerm += input;
                 readout.addToMainDisplay(input);
 
+                // TODO: insert code to readout error if string is too long
+
                 if (this.operation !== null) {
                     this.previousOperation = this.operation;
                 }
