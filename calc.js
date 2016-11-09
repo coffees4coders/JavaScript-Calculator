@@ -91,15 +91,18 @@ var results = {
                 readout.updateMainDisplay('');
             }
 
-                this.currentTerm += input;
-                readout.addToMainDisplay(input);
 
-                // TODO: insert code to readout error if string is too long
+            this.currentTerm += input;
+            readout.addToMainDisplay(input);
 
-                if (this.operation !== null) {
-                    this.previousOperation = this.operation;
-                }
-                this.operation = null;
+            // TODO: insert code to readout error if string is too long
+
+
+            if (this.operation !== null) {
+                this.previousOperation = this.operation;
+            }
+
+            this.operation = null;
 
         // runs if an operator button is selected
         } else {
@@ -150,6 +153,11 @@ var results = {
                         case '*':
                             this.result = this.inputs[0] * this.inputs[1];
                             break;
+
+                        case '=':
+                            this.result = this.inputs[0] * this.inputs[1];
+                            break;
+
                     }
 
                     this.inputs = [];
