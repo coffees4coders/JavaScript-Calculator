@@ -1,7 +1,13 @@
-// TODO: add keyboard keypress functionality
-// FIXME: pressing operation after getting result from equals should
-//        use previous result
-// TODO: Round number when using decimal
+/**
+ * Notes and TODOs
+ *
+ * TODO: add keyboard keypress functionality
+ * FIXME: pressing operation after getting result from equals should
+ *        use previous result
+ * TODO: Round number when using decimal
+ * TODO: consolidate currentTerm and mainDisplay.innerHTML
+ *       maybe replace currentTerm if resetDisplay bool?
+ */
 
 var readout = {
     // the following properties are set when the page finishes loading
