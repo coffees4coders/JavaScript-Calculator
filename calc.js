@@ -1,6 +1,7 @@
 // TODO: add keyboard keypress functionality
 // FIXME: pressing operation after getting result from equals should
 //        use previous result
+// TODO: Round number when using decimal
 
 var readout = {
     // the following properties are set when the page finishes loading
@@ -77,7 +78,7 @@ var results = {
     },
 
     processInput: function(input) {
-        // runs if input is 0-9
+        // runs if input is 0-9 or decimal
         if (!isNaN(input)) {
             if (this.inputs.length === 1 &&
                 this.currentTerm === '' ||
@@ -91,6 +92,7 @@ var results = {
                 readout.updateMainDisplay('');
             }
 
+            console.log('yo')
 
             this.currentTerm += input;
             readout.addToMainDisplay(input);
@@ -105,7 +107,16 @@ var results = {
             this.operation = null;
 
         // runs if an operator button is selected
-        } else {
+      } else if (input === '.') {
+        // TODO: add code to handle decimal
+        console.log('decimal pressed');
+
+        if (readout.mainDisplay.innerHTML.indexOf('.') < 0) {
+          this.currentTerm += '.';
+          readout.addToMainDisplay('.');
+        }
+
+      } else {
 
             // handle clicking a different operation before clicking a number button
             // this will replace the previously selected operation
@@ -186,6 +197,9 @@ function processClick(item) {
         case "8":
         case "9":
             results.processInput(item);
+            break;
+        case "decimal":
+            results.processInput('.');
             break;
         case "plus":
             results.processInput('+');
