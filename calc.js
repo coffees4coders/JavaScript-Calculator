@@ -2,11 +2,8 @@
  * Notes and TODOs
  *
  * TODO: add keyboard keypress functionality
- * FIXME: pressing operation after getting result from equals should
- *        use previous result
  * TODO: Round number when using decimal
- * TODO: consolidate currentTerm and mainDisplay.innerHTML
- *       maybe replace currentTerm if resetDisplay bool?
+ * TODO: Switch to monospace font (share tech mono or vt323?)
  */
 
 var readout = {
@@ -42,21 +39,24 @@ var readout = {
         this.mainDisplay.innerHTML = "0";
         this.smallDisplay.innerHTML = "";
         results.inputs = [];
-        results.currentTerm = '0';
         results.operation = null;
+        results.resetOnNextNumber = true;
     }
 };
 
 var results = {
-    currentTerm: '0',
     result: null,
     inputs: [],
     operation: null,
     previousOperation: null,
 
+    // this varialble takes a boolean and determines whether the main readout
+    // is cleared when a number button is pressed. For instance, this would
+    // occur after an operation button is pressed.
+    resetOnNextNumber: true,
+
     // reset this object to default values
     resetResultsObj: function() {
-      this.currentTerm = '0';
       this.result = null;
       this.inputs = [];
       this.operation = null;
@@ -79,28 +79,18 @@ var results = {
         }
 
         readout.updateMainDisplay(num);
-        this.currentTerm = num;
       }
     },
 
     processInput: function(input) {
         // runs if input is 0-9 or decimal
         if (!isNaN(input)) {
-            if (this.inputs.length === 1 &&
-                this.currentTerm === '' ||
-                this.currentTerm === '' &&
-                readout.mainDisplay.innerHTML === '0') {
-                readout.clearMainDisplay();
-            }
             // clears initial zero when entering a number
-            if (this.currentTerm === '0') {
-                this.currentTerm = '';
+            if (this.resetOnNextNumber === true) {
                 readout.updateMainDisplay('');
             }
 
-            console.log('yo')
 
-            this.currentTerm += input;
             readout.addToMainDisplay(input);
 
             // TODO: insert code to readout error if string is too long
@@ -112,16 +102,20 @@ var results = {
 
             this.operation = null;
 
+            // makes sure that the next number press does not reset the
+            // main display
+            this.resetOnNextNumber = false;
+
         // runs if an operator button is selected
       } else if (input === '.') {
         // TODO: add code to handle decimal
-        console.log('decimal pressed');
 
+        // allows for only one decimal in the number
         if (readout.mainDisplay.innerHTML.indexOf('.') < 0) {
-          this.currentTerm += '.';
           readout.addToMainDisplay('.');
         }
 
+        // will run if operation button is selected
       } else {
 
             // handle clicking a different operation before clicking a number button
@@ -130,8 +124,9 @@ var results = {
                 readout.smallDisplay.innerHTML[readout.smallDisplay.innerHTML.length-1],
 
                 indexOfLastInput = readout.smallDisplay.innerHTML.length-1;
+
             // replaces operation from small display when apporpriate
-            if (input !== lastInputOnSmallDisplay && lastInputOnSmallDisplay !== undefined && this.currentTerm === '') {
+            if (input !== lastInputOnSmallDisplay && lastInputOnSmallDisplay !== undefined && results.resetOnNextNumber === true) {
                 readout.updateSmallDisplay(readout.smallDisplay.innerHTML.slice(0, indexOfLastInput) + input);
             }
 
@@ -140,17 +135,13 @@ var results = {
             if (this.operation === null) {
                 this.operation = input;
 
-                // if (readout.smallDisplay.innerHTML = '0') {
-                //   readout.addToSmallDisplay('0' + input);
-                // }
-
                 // adds operation to small display for all operations
                 // except 'equals'
                 if (input !== '=') {
-                    readout.addToSmallDisplay(this.currentTerm + ' ' + input);
+                    readout.addToSmallDisplay(readout.mainDisplay.innerHTML + ' ' + input);
                 }
 
-                this.inputs.push(parseFloat(this.currentTerm));
+                this.inputs.push(parseFloat(readout.mainDisplay.innerHTML));
                 if (this.inputs.length === 2) {
 
                     // operation logic
@@ -179,60 +170,16 @@ var results = {
 
                     this.inputs = [];
                     this.inputs.push(this.result);
-                    console.log('result = ' + this.result);
                     readout.updateMainDisplay(this.result);
                 }
-                this.currentTerm = '';
+
+                // the next number press will reset the main display
+                this.resetOnNextNumber = true;
             }
         }
     }
 };
 
-// takes button input from user
-// updates readout display at end of function
-function processClick(item) {
-    switch(item) {
-        case "0":
-        case "1":
-        case "2":
-        case "3":
-        case "4":
-        case "5":
-        case "6":
-        case "7":
-        case "8":
-        case "9":
-            results.processInput(item);
-            break;
-        case "decimal":
-            results.processInput('.');
-            break;
-        case "plus":
-            results.processInput('+');
-            break;
-        case "minus":
-            results.processInput('-');
-            break;
-        case "divide":
-            results.processInput('/');
-            break;
-        case "multiply":
-            results.processInput('*');
-            break;
-        case "clear":
-            readout.clearAll();
-            break;
-        case "equals":
-            results.processInput('=');
-            readout.clearSmallDisplay();
-            results.resetResultsObj();
-            break;
-        case "negative":
-            results.toggleNegative();
-            break;
-    }
-
-}
 
 window.onload = function() {
 
@@ -248,31 +195,41 @@ window.onload = function() {
   readout.mainDisplay = document.getElementById('main-readout');
   readout.smallDisplay = document.getElementById('small-readout');
 
+  // initialize calculator screen to display zero
+  readout.mainDisplay.innerHTML = '0';
+
   // attach onclick event listeners to all number buttons
   for (var i = 0; i < numberButtons.length; i++) {
     numberButtons[i].addEventListener('click', function(e) {
-      // what heppens when you click on a number button
-      processClick(e.target.value); // sends input to processInput()
+      results.processInput(e.target.value);
     });
   }
+
+  // attach onclick event listeners to all operator buttons
   for (var i = 0; i < operatorButtons.length; i++) {
     operatorButtons[i].addEventListener('click', function(e) {
-        // attach onclick event listeners to all operator buttons
-      // what heppens when you click on an operator button
-      processClick(e.target.value);
+      results.processInput(e.target.value);
+
     });
   }
 
   clearButton[0].addEventListener('click', function() {
-    processClick('clear');
+      readout.clearAll();
+
+  });
+
+  negativeButton[0].addEventListener('click', function() {
+      results.toggleNegative();
+
   });
 
   equalsButton[0].addEventListener('click', function() {
-    processClick('equals');
+    results.processInput('=');
+    readout.clearSmallDisplay();
+    results.resetResultsObj();
   });
 
-  // initialize calculator screen to display zero
-  readout.mainDisplay.innerHTML = '0';
+
 
   // adds event listeners for mousedown event
   // appends .press class to the element's class attribute

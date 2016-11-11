@@ -123,7 +123,8 @@ a:hover, a:active {
 .number-button,
 .operator-button,
 .clear-button,
-.equals-button {
+.equals-button,
+.negative-button {
 	width: 20%;
 	height: 10%;
 	background-color: #000;
