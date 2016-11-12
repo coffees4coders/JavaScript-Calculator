@@ -2,9 +2,7 @@
  * Notes and TODOs
  *
  * TODO: add keyboard keypress functionality
- * TODO: Round number when using decimal
  * TODO: Switch to monospace font (share tech mono or vt323?)
-
  * BUG: pressing the decimal after getting a result should reset display
  * and display as 0.
  */
@@ -201,7 +199,8 @@ var results = {
     }
 };
 
-
+// TODO: add touchstart, touchend events if (touchstart): this will detect
+// touchscreen/mobile device
 window.onload = function() {
 
   var numberButtons = document.getElementsByClassName('number-button'),
