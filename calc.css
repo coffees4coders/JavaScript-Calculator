@@ -81,7 +81,7 @@ a:hover, a:active {
 }
 
 .calculator {
-	margin: 30px auto 50px auto;
+	margin: 30px auto 20px auto;
 	padding: 30px 10px 0 30px;
 	width: 350px;
 	height: 400px;
@@ -182,4 +182,12 @@ button {
 	font-weight: bold;
 	padding-right: 10px;
 	margin-bottom: 5px;
+}
+
+footer {
+	font-size: 2em;
+	font-family: 'Orbitron', sans-serif;
+	text-align: right;
+	padding-right: 20%;
+	margin-bottom: 10px;
 }
