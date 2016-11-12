@@ -82,9 +82,9 @@ a:hover, a:active {
 
 .calculator {
 	margin: 30px auto 20px auto;
-	padding: 30px 10px 0 30px;
+	padding: 10px 10px 0 10px;
 	width: 300px;
-	height: 400px;
+	height: 380px;
 	border: 3px solid #343434;
 	box-shadow: -3px 3px 10px #585858;
 	border-radius: 5%;
@@ -148,7 +148,7 @@ a:hover, a:active {
 	height: 22%;
 	float: right;
 	position: relative;
-	right: 10px;
+	/*right: 10px;*/
 }
 
 .btn {
@@ -187,7 +187,6 @@ button {
 footer {
 	font-size: 2em;
 	font-family: 'Orbitron', sans-serif;
-	text-align: right;
-	padding-right: 20%;
+		text-align: center;
 	margin-bottom: 10px;
 }
