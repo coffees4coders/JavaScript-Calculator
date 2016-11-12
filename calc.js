@@ -4,12 +4,17 @@
  * TODO: add keyboard keypress functionality
  * TODO: Round number when using decimal
  * TODO: Switch to monospace font (share tech mono or vt323?)
+
+ * BUG: pressing the decimal after getting a result should reset display
+ * and display as 0.
  */
 
 var readout = {
     // the following properties are set when the page finishes loading
      mainDisplay:  {}, // points to <div class="screen main-readout" id="main-readout">
      smallDisplay: {}, // points to <div class="screen small-readout" id="small-readout">
+
+     fontSize: 3,
 
      // add___ methods will append the readout
      addToMainDisplay: function(item) {
@@ -41,6 +46,17 @@ var readout = {
         results.inputs = [];
         results.operation = null;
         results.resetOnNextNumber = true;
+        this.sizeResults()
+    },
+
+    sizeResults: function() {
+      if (readout.mainDisplay.innerHTML.length < 12) {
+        document.getElementById('main-readout').style = 'font-size: 3em';
+      } else if (readout.mainDisplay.innerHTML.length < 16) {
+        document.getElementById('main-readout').style = 'font-size: 2em';
+      } else {
+        document.getElementById('main-readout').style = 'font-size: 1.5em';
+      }
     }
 };
 
@@ -79,6 +95,7 @@ var results = {
         }
 
         readout.updateMainDisplay(num);
+        readout.sizeResults();
       }
     },
 
@@ -136,8 +153,9 @@ var results = {
                 this.operation = input;
 
                 // adds operation to small display for all operations
-                // except 'equals'
-                if (input !== '=') {
+                // except 'equals'. Limits number of digits in small readout
+                if (input !== '=' && readout.smallDisplay.innerHTML.length +
+                    readout.mainDisplay.innerHTML.length < 25) {
                     readout.addToSmallDisplay(readout.mainDisplay.innerHTML + ' ' + input);
                 }
 
@@ -177,6 +195,9 @@ var results = {
                 this.resetOnNextNumber = true;
             }
         }
+        // shrinks font-size of mainDisplay if number of digits on mainDisplay
+        // grow too large
+        readout.sizeResults();
     }
 };
 
