@@ -75,6 +75,28 @@ h2 {
 	text-align: center;
 }
 
+
+footer {
+	font-size: 2em;
+	font-family: 'Orbitron', sans-serif;
+	text-align: center;
+	margin-bottom: 10px;
+}
+
+@media screen and (max-width: 400px) {
+	h1 {
+		font-size: 2em;
+	}
+
+	h2 {
+		font-size: 1em;
+	}
+
+	footer {
+		font-size: 1em;
+	}
+}
+
 a:link, a:visited,
 a:hover, a:active {
 	color: #000;
@@ -182,11 +204,4 @@ button {
 	font-weight: bold;
 	padding-right: 10px;
 	margin-bottom: 5px;
-}
-
-footer {
-	font-size: 2em;
-	font-family: 'Orbitron', sans-serif;
-		text-align: center;
-	margin-bottom: 10px;
 }
