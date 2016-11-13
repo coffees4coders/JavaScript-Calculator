@@ -16,8 +16,13 @@ var readout = {
      addToMainDisplay: function(item) {
          readout.mainDisplay.innerHTML += item;
      },
-     addToSmallDisplay:function(item){
-         readout.smallDisplay.innerHTML += item;
+
+     addToSmallDisplay:function(item) {
+        readout.smallDisplay.innerHTML += item;
+
+        if (readout.smallDisplay.innerHTML.length > 20) {
+          readout.smallDisplay.style = 'font-size: 1.25em';
+        }
      },
 
      // update____Display methods will replace display contents
@@ -46,9 +51,15 @@ var readout = {
     },
 
     sizeResults: function() {
-      if (readout.mainDisplay.innerHTML.length < 12) {
-        document.getElementById('main-readout').style = 'font-size: 3em';
-      } else if (readout.mainDisplay.innerHTML.length < 16) {
+      // for small screens
+      if ('ontouchstart' in window) {
+
+      }
+
+
+      if (readout.mainDisplay.innerHTML.length < 11) {
+        document.getElementById('main-readout').style = 'font-size: 2.5em';
+      } else if (readout.mainDisplay.innerHTML.length < 14) {
         document.getElementById('main-readout').style = 'font-size: 2em';
       } else {
         document.getElementById('main-readout').style = 'font-size: 1.5em';
@@ -164,8 +175,8 @@ var results = {
 
                 // adds operation to small display for all operations
                 // except 'equals'. Limits number of digits in small readout
-                if (input !== '=' && readout.smallDisplay.innerHTML.length +
-                    readout.mainDisplay.innerHTML.length < 25) {
+                if (input !== '=' /*&& document.getElementById('smallResult').innerHTML.length +
+                    readout.mainDisplay.innerHTML.length < 25*/) {
                     readout.addToSmallDisplay(readout.mainDisplay.innerHTML + ' ' + input);
                 }
 
