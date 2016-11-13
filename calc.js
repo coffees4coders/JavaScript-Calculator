@@ -233,6 +233,8 @@ window.onload = function() {
     });
   }
 
+
+
   clearButton[0].addEventListener('click', function() {
       readout.clearAll();
 
@@ -251,27 +253,53 @@ window.onload = function() {
 
 
 
+  // button press effects
+
+  // detects if user is using a touch screen device
+  if ('ontouchstart' in window) {
+    for (var i = 0; i < allButtons.length; i++) {
+      allButtons[i].addEventListener('touchstart', function(e) {
+          var elemClassList = e.target.className;
+          e.target.className += ' press';
+      });
+
+    }
+
+    for (var i = 0; i < allButtons.length; i++) {
+      allButtons[i].addEventListener('touchend', function(e) {
+          var elemClassList = e.target.className;
+          // remove the .press class from the class attribute
+          var startIndex = elemClassList.indexOf(' press');
+          var revertedClassList = elemClassList.slice(0, startIndex);
+          e.target.className = revertedClassList;
+      });
+
+    }
+
+    // for non-touch screens
+  } else {
   // adds event listeners for mousedown event
   // appends .press class to the element's class attribute
-  for (var i = 0; i < allButtons.length; i++) {
-    allButtons[i].addEventListener('mousedown', function(e) {
-        var elemClassList = e.target.className;
-        e.target.className += ' press';
-    });
+    for (var i = 0; i < allButtons.length; i++) {
+      allButtons[i].addEventListener('mousedown', function(e) {
+          var elemClassList = e.target.className;
+          e.target.className += ' press';
+      });
 
-  }
+    }
 
-  // add event listeners for mouseup event
-  // removes .press class from the element's class attribute
-  for (var i = 0; i < allButtons.length; i++) {
-    allButtons[i].addEventListener('mouseup', function(e) {
-        var elemClassList = e.target.className;
-        // remove the .press class from the class attribute
-        var startIndex = elemClassList.indexOf(' press');
-        var revertedClassList = elemClassList.slice(0, startIndex);
-        e.target.className = revertedClassList;
-    });
+    // add event listeners for mouseup event
+    // removes .press class from the element's class attribute
+    for (var i = 0; i < allButtons.length; i++) {
+      allButtons[i].addEventListener('mouseup', function(e) {
+          var elemClassList = e.target.className;
+          // remove the .press class from the class attribute
+          var startIndex = elemClassList.indexOf(' press');
+          var revertedClassList = elemClassList.slice(0, startIndex);
+          e.target.className = revertedClassList;
+      });
 
+    }
   }
 
 };
