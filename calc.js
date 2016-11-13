@@ -3,8 +3,6 @@
  *
  * TODO: add keyboard keypress functionality
  * TODO: Switch to monospace font (share tech mono or vt323?)
- * BUG: pressing the decimal after getting a result should reset display
- * and display as 0.
  */
 
 var readout = {
@@ -133,7 +131,11 @@ var results = {
 
         // runs if an operator button is selected
       } else if (input === '.') {
-        // TODO: add code to handle decimal
+        if (this.resetOnNextNumber) {
+          readout.clearMainDisplay();
+          readout.addToMainDisplay('0');
+          this.resetOnNextNumber = false;
+        }
 
         // allows for only one decimal in the number
         if (readout.mainDisplay.innerHTML.indexOf('.') < 0) {
