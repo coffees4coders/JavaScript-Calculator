@@ -1,10 +1,3 @@
-/**
- * Notes and TODOs
- *
- * IDEA: add keyboard keypress functionality
- * IDEA: Switch to monospace font (share tech mono or vt323?)
- */
-
 var readout = {
     // the following properties are set when the page finishes loading
      mainDisplay:  {}, // points to <div class="screen main-readout" id="main-readout">
@@ -56,13 +49,12 @@ var readout = {
 
       }
 
-
       if (readout.mainDisplay.innerHTML.length < 11) {
-        document.getElementById('main-readout').style = 'font-size: 2.5em';
+        document.getElementById('main-readout').style.fontSize = '2.5em';
       } else if (readout.mainDisplay.innerHTML.length < 14) {
-        document.getElementById('main-readout').style = 'font-size: 2em';
+        document.getElementById('main-readout').style.fontSize = '2em';
       } else {
-        document.getElementById('main-readout').style = 'font-size: 1.5em';
+        document.getElementById('main-readout').style.fontSize = '1.5em';
       }
     }
 };
@@ -232,7 +224,7 @@ window.onload = function() {
       equalsButton = document.getElementsByClassName('equals-button'),
       negativeButton = document.getElementsByClassName('negative-button'),
       percentButton = document.getElementById('percent-button'),
-      allButtons = document.getElementsByClassName('btn');
+      allButtons = document.getElementsByTagName('button');
 
 
 
@@ -287,6 +279,7 @@ window.onload = function() {
       allButtons[i].addEventListener('touchstart', function(e) {
           var elemClassList = e.target.className;
           e.target.className += ' press';
+          e.target.style = 'background-color: red';
       });
 
     }
@@ -327,5 +320,4 @@ window.onload = function() {
 
     }
   }
-
 };
