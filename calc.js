@@ -1,8 +1,8 @@
 /**
  * Notes and TODOs
  *
- * TODO: add keyboard keypress functionality
- * TODO: Switch to monospace font (share tech mono or vt323?)
+ * IDEA: add keyboard keypress functionality
+ * IDEA: Switch to monospace font (share tech mono or vt323?)
  */
 
 var readout = {
