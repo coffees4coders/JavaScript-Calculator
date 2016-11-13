@@ -83,18 +83,28 @@ var results = {
       // just been clicked
       if (this.operation === null) {
         var numberOnDisplay = parseFloat(readout.mainDisplay.innerHTML),
-            num;
+            newNum;
 
         if (readout.mainDisplay.innerHTML < 0) {
-          num = Math.abs(numberOnDisplay);
+          newNum = Math.abs(numberOnDisplay);
 
         } else if (readout.mainDisplay.innerHTML > 0) {
-          num = 0 - numberOnDisplay;
+          newNum = 0 - numberOnDisplay;
         }
 
-        readout.updateMainDisplay(num);
+        readout.updateMainDisplay(newNum);
         readout.sizeResults();
       }
+    },
+
+    makePercentage: function() {
+      var numberOnDisplay = parseFloat(readout.mainDisplay.innerHTML),
+          newNum;
+
+      newNum = numberOnDisplay / 100;
+      readout.updateMainDisplay(newNum);
+      readout.sizeResults();
+
     },
 
     processInput: function(input) {
@@ -157,6 +167,7 @@ var results = {
                     readout.addToSmallDisplay(readout.mainDisplay.innerHTML + ' ' + input);
                 }
 
+
                 this.inputs.push(parseFloat(readout.mainDisplay.innerHTML));
                 if (this.inputs.length === 2) {
 
@@ -199,8 +210,7 @@ var results = {
     }
 };
 
-// TODO: add touchstart, touchend events if (touchstart): this will detect
-// touchscreen/mobile device
+
 window.onload = function() {
 
   var numberButtons = document.getElementsByClassName('number-button'),
@@ -208,6 +218,7 @@ window.onload = function() {
       clearButton = document.getElementsByClassName('clear-button'),
       equalsButton = document.getElementsByClassName('equals-button'),
       negativeButton = document.getElementsByClassName('negative-button'),
+      percentButton = document.getElementById('percent-button'),
       allButtons = document.getElementsByClassName('btn');
 
 
@@ -237,12 +248,14 @@ window.onload = function() {
 
   clearButton[0].addEventListener('click', function() {
       readout.clearAll();
-
   });
 
   negativeButton[0].addEventListener('click', function() {
       results.toggleNegative();
+  });
 
+  percentButton.addEventListener('click', function() {
+      results.makePercentage();
   });
 
   equalsButton[0].addEventListener('click', function() {
