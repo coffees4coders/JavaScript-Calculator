@@ -92,9 +92,10 @@ var results = {
         } else if (readout.mainDisplay.innerHTML > 0) {
           newNum = 0 - numberOnDisplay;
         }
-
-        readout.updateMainDisplay(newNum);
-        readout.sizeResults();
+        if (newNum !== undefined) {
+          readout.updateMainDisplay(newNum);
+          readout.sizeResults();
+        }
       }
     },
 
