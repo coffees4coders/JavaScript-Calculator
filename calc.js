@@ -279,7 +279,6 @@ window.onload = function() {
       allButtons[i].addEventListener('touchstart', function(e) {
           var elemClassList = e.target.className;
           e.target.className += ' press';
-          e.target.style = 'background-color: red';
       });
 
     }
