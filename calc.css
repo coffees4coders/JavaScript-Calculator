@@ -97,12 +97,6 @@ footer {
 	}
 }
 
-/* remove grey outline when pressing buttons on mobile safari */
-
-button {
-
- }
-
 a:link, a:visited,
 a:hover, a:active {
 	color: #000;
@@ -157,10 +151,7 @@ button {
 	margin: 5px;
 	margin-left: 10px;
 
-}
-
-/* removes gray outline when touching button on mobile browsers */
-button {
+  /* removes gray outline when touching button on mobile browsers */
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 
