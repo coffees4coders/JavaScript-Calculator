@@ -1,6 +1,8 @@
 # JavaScritpt-Calculator
 Advanced Project for freeCodeCamp
 
+Live site: http://codepen.io/jugglnaut/full/zoqpKp/
+
 Project Requirements:
 
 Objective: Build a CodePen.io app that is functionally similar to this: https://codepen.io/FreeCodeCamp/full/rLJZrA/.
